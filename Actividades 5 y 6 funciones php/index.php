@@ -10,9 +10,7 @@
 
 <body>
 
-
-
-	<h1>Ejercicio 1</h1>
+	<h1>Actividad 5</h1>
 	<FORM ACTION="index.php" METHOD="POST">
 		<INPUT TYPE="text" NAME="palabra" placeholder="Introduzca una palabra">
 		<INPUT TYPE="text" NAME="palabra2" placeholder="Introduzca otra palabra">
@@ -46,7 +44,7 @@
 
 
 
-		<h1>Ejercicio 2</h1>
+		<h1>Actividad 6</h1>
 
 		
 		<FORM ACTION="index.php" METHOD="POST">
