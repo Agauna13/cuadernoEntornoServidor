@@ -27,10 +27,16 @@
 		
 		
 
+		/** La estructura de control try//catch como en el resto de lenguajes (que conozco) funciona indicandole que intente el bloque de código 
+		 * que le metamos al try, capturando el posible error que pueda arrojar e imprimiendo o ejecutando el error que le pongamos en el catch. 
+		 * En algunos casos se utiliza la 3ra parte (finally) para ejecutar alguna otra función al salir de la estructura de control. Ésta última
+		 * se ejecuta pase lo que pase, haya o no haya error
+		 */
+
 		try{
-			if(preg_match("/[0-9]/" , $palabra)){
+			if(preg_match("/[0-9]/" , $palabra)){  /** Explicación sobre la función preg_match() -> https://www.php.net/manual/es/function.preg-match.php */
 				throw new Exception("La cadena insertada contiene numeros.");
-			}else if($pos === false){
+			}else if($pos === false){		
 				throw new Exception("La cadena no contiene name.");
 			}else if(preg_match("/[name][0-9]{0}/", $palabra)){
 				echo"la cadena contiene name sin numeros.";

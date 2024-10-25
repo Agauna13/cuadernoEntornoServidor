@@ -15,8 +15,8 @@
 			html que indique el día de la semana y un texto exclusivo para ese día. También tiene que devolver un
 			texto en caso de que la variable no informe del día.*/
 		 
-		$today = date("D");
-		echo date("l <br>");
+		$today = date("D"); /* Las variables se declaran con $ delante como en powershell   */
+		echo date("l <br>"); /* La función echo (print) Puede devolver elementos HTML  */
 		switch($today){
 			case "Mon":
 				echo "Vaya perezaa";
@@ -43,10 +43,6 @@
 
 			default: echo "No me seas, pásame un día de verdad";
 		}
-
-	?>
-
-	<?php
 
 	?>
 

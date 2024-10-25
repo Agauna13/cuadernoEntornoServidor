@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+	
 	<h1>Actividad 5</h1>
 	<FORM ACTION="index.php" METHOD="POST">
 		<INPUT TYPE="text" NAME="palabra" placeholder="Introduzca una palabra">
@@ -21,6 +21,13 @@
 	</FORM>
 
 	<?php
+
+
+	/**
+	 * Un array asociativo de variables pasadas al script actual a través del método POST de HTTP cuando se
+	 * emplea application/x-www-form-urlencoded o multipart/form-data como Content-Type de HTTP en la petición.
+	 */
+
 		$str1 = $_POST['palabra'];
 		$str2 = $_POST['palabra2'];
 
