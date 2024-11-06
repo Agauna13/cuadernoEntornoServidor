@@ -39,7 +39,6 @@
 
 			for ($i = 0; $i <= $len1 - $len2; $i++) {
 				$subs = substr($str1, $i, $len2);
-
 				if ($subs == $str2) {
 					$count++;
 				}
@@ -49,10 +48,7 @@
 		}
 	?>
 
-
-
 		<h1>Actividad 6</h1>
-
 		
 		<FORM ACTION="index.php" METHOD="POST">
 		<INPUT TYPE="text" NAME="arr" placeholder="Introduzca lista de numeros y he dicho numeros, no me seas...">
@@ -91,10 +87,6 @@
 		echo('mayores ' . $greater . ', Menores: ' . $smaller .', Iguales: '.$same);
 		echo'<br>';
 
-		
-
-		
-		
 		?>
 
 	</FORM>

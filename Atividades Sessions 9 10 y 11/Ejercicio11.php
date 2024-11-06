@@ -14,6 +14,7 @@ if (isset($_POST["fondo"])) {
 if (isset($_POST["texto"])) {
     $_SESSION["colorTexto"] = $_POST["texto"];
 }
+
 /*
     $_SESSION y $_POST (entre otras) son 2 mapas clave-valor, que al inicializarlo le estamos indicando una clave
     a la que debemos asignarle un valor.
