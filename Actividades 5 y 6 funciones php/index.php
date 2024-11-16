@@ -60,7 +60,7 @@
 
 		<?php
 
-		/* He optado por pedir por formulario una cadena de numeros, crear un array de los mismos y operar. */ 
+		/* He optado por pedir por formulario una cadena de numeros, crear un array de los mismos y operar. */
 		
 		$arr = $_POST['arr'];
 		$num = $_POST['arr2'];
