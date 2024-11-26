@@ -14,19 +14,27 @@ if (!isset($_COOKIE["sessionTimer"])) {
     exit();
 }
 
-
-$dni = $_POST["dni"];
-$nombre = ucfirst($_SESSION["username"]);
-$apellido = $_POST["apellido"];
-$curso = $_POST["curso"];
-
-
 if ($dni != null && $nombre != null && $curso != null) {
     $_SESSION["datosUsuario"] = true;
 } else {
     $_SESSION["datosUsuario"] = false;
     header("location: /formularioDatos.php");
 }
+
+
+$nombre = ucfirst($_SESSION["username"]);
+
+
+if(isset($_POST["dni"]) && isset($_POST["apellido"]) && isset($_POST["curso"])){
+    $dni = $_POST["dni"];
+    $apellido = $_POST["apellido"];
+    $curso = $_POST["curso"];
+    header("location:".$_SERVER["PHP_SELF"]);
+    exit();
+
+}
+
+
 
 
 

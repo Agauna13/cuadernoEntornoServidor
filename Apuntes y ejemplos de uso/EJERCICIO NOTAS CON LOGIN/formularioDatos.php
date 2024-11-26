@@ -1,9 +1,16 @@
 <?php
 //formularioDatos.php
+require 'alumnado.php';
+require 'boletin.php';
 session_start();
 
 if(isset($_SESSION["datosUsuario"]) && $_SESSION["datosUsuario"] == true){
     header("location: /fichaPersonal.php");
+    exit();
+}
+
+if (!isset($_COOKIE["sessionTimer"])) {
+    header("location: logOut.php");
     exit();
 }
 ?>
@@ -53,6 +60,8 @@ if(isset($_SESSION["datosUsuario"]) && $_SESSION["datosUsuario"] == true){
 </style>
 <body>
     <header>
+
+
         <h3><?php echo substr($_SESSION["username"], -1) == 'a' ? "Bienvenida " . ucfirst($_SESSION["username"]) : "Bienvenido " . ucfirst($_SESSION["username"]); ?></h3>
     </header>
     <form action="/fichaPersonal.php" method="POST">
