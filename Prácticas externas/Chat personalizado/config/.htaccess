@@ -1,0 +1,11 @@
+# control de acceso a la base de datos
+
+<Files "*.php>
+    Order Deny, Allow
+    Deny from all
+</Files>
+
+<Files "connection.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
