@@ -6,9 +6,10 @@ require_once "connection.php";
 if($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_SESSION['username'])){
     $usuario = $_POST['username'];
     $contra = $_POST['password'];
-    $_POST[] = array();
 
 }else if(isset($_SESSION['username'])){
+    //setcookie(name, value, expire, path, domain, secure, httponly); (Si es necesario instanciar una cookie)
+
     header("Location: chat.php");
     exit();
 }
