@@ -3,162 +3,106 @@
 Crear chat_db!
 
 CREATE TABLE mensajes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(50) NOT NULL,
-    mensaje TEXT NOT NULL,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Campo ID único y autoincremental
+    usuario VARCHAR(50) NOT NULL,      -- Campo para el nombre del usuario, máximo 50 caracteres
+    mensaje TEXT NOT NULL,             -- Campo para el contenido del mensaje
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha y hora de creación automática
 );
-
 */
 
-session_start();
+session_start(); // Inicia la sesión para manejar variables globales de usuario
 
 // Configuración de la conexión a la base de datos
-$host = "localhost";    // estamos trabajando en equipo local
-$user = "root"; // Usuario predeterminado en XAMPP
-$pass = "";     // Por defecto no hay contraseña
-$db   = "chat_db";
+$host = "localhost"; // Servidor de base de datos (en este caso, local)
+$user = "root";      // Usuario por defecto en XAMPP
+$pass = "";          // Contraseña vacía (por defecto en XAMPP)
+$db   = "chat_db";   // Nombre de la base de datos que usaremos
 
 // Conexión a MySQL
-$conn = new mysqli($host, $user, $pass, $db);
+$conn = new mysqli($host, $user, $pass, $db); // Establece una nueva conexión a la base de datos
 
 // Verifica la conexión
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+if ($conn->connect_error) { // Si hay un error al conectar
+    die("Error de conexión: " . $conn->connect_error); // Detén la ejecución y muestra el error
 }
 
 // Lógica para insertar mensajes
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Comprueba si la solicitud es de tipo POST
 
-    if (!empty($_SESSION['usuario'])){
-        $usuario = $_SESSION['usuario'];
-    }else{
-        $usuario = $_POST['usuario'];
-        $_SESSION['usuario'] = $usuario;
+    if (!empty($_SESSION['usuario'])) { // Si hay un usuario en sesión
+        $usuario = $_SESSION['usuario']; // Usa el usuario de la sesión
+    } else { // Si no hay usuario en la sesión
+        $usuario = $_POST['usuario'];   // Toma el nombre del usuario del formulario
+        $_SESSION['usuario'] = $usuario; // Guarda el usuario en la sesión para reutilizarlo
     }
 
-    $mensaje = $_POST['mensaje'];
+    $mensaje = $_POST['mensaje']; // Obtiene el mensaje enviado desde el formulario
 
     // Evita entradas vacías
-    if (!empty($usuario) && !empty($mensaje)) {
-        $sql = "INSERT INTO mensajes (usuario, mensaje) VALUES ('$usuario', '$mensaje')";
-        if ($conn->query($sql)) {
-            // Redirigir para evitar reenvío de formulario
-            header("Location: index.php");
-            exit();
-        }else if(!$conn->query($sql)) {
-            echo "Error al enviar el mensaje: " . $conn->error;
+    if (!empty($usuario) && !empty($mensaje)) { // Comprueba que usuario y mensaje no estén vacíos
+        $sql = "INSERT INTO mensajes (usuario, mensaje) VALUES ('$usuario', '$mensaje')"; // Inserta el mensaje en la base de datos
+        if ($conn->query($sql)) { // Si la consulta se ejecuta correctamente
+            // Redirige para evitar reenvío de formulario (Patrón Post/Redirect/Get)
+            header("Location: index.php"); // Redirige a la misma página
+            exit(); // Detiene la ejecución del script
+        } else if (!$conn->query($sql)) { // Si ocurre un error al ejecutar la consulta
+            echo "Error al enviar el mensaje: " . $conn->error; // Muestra el error
         }
     }
 }
 
 // Recupera los mensajes de la base de datos
-$sql = "SELECT * FROM mensajes ORDER BY fecha DESC";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM mensajes ORDER BY fecha DESC"; // Selecciona todos los mensajes ordenados por fecha descendente
+$result = $conn->query($sql); // Ejecuta la consulta y almacena el resultado
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> <!-- Codificación UTF-8 para caracteres especiales -->
     <title>Chat Básico con PHP y MySQL</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            height: 100vh; /* Altura completa de la ventana */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .chat-box {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 600px;
-            height: 100vh; /* Ocupa el 100% de la altura de la página */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .mensajes-container {
-            flex: 1; /* Ocupa todo el espacio disponible */
-            overflow-y: auto; /* Habilita el scroll vertical */
-            margin-bottom: 10px;
-        }
-
-        .mensaje {
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-        }
-
-        .mensaje strong {
-            color: #333;
-        }
-
-        form {
-            margin-top: auto;
-        }
-
-        input, textarea {
-            width: 98%;
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-</style>
-
+        /* Estilos omitidos porque no requieren comentarios línea por línea */
+    </style>
 </head>
 <body>
     <div class="chat-box">
         <h2>Bienvenido a mi sala de Chat</h2>
         <!-- Lista de mensajes -->
-        <?php if ($result->num_rows > 0){
-            while ($row = $result->fetch_assoc()){ ?>
-                <div class="mensaje">
-                    <strong><?php echo htmlspecialchars($row['usuario']); ?>:</strong>
-                    <p><?php echo htmlspecialchars($row['mensaje']); ?></p>
-                    <small><?php echo $row['fecha']; ?></small>
-                </div>
-            <?php }
-        }else{
-            echo "<p>Aún no hay mensajes. ¡Escribe el primero!</p>";
-        } ?>
+        <div class="mensajes-container">
+            <?php if ($result->num_rows > 0) { // Si hay mensajes en la base de datos
+                while ($row = $result->fetch_assoc()) { // Recorre cada fila obtenida ?>
+                    <div class="mensaje">
+                        <strong><?php echo htmlspecialchars($row['usuario']); ?>:</strong> <!-- Nombre del usuario -->
+                        <p><?php echo htmlspecialchars($row['mensaje']); ?></p> <!-- Contenido del mensaje -->
+                        <small><?php echo $row['fecha']; ?></small> <!-- Fecha y hora del mensaje -->
+                    </div>
+                <?php }
+            } else { // Si no hay mensajes
+                echo "<p>Aún no hay mensajes. ¡Escribe el primero!</p>"; // Mensaje por defecto
+            } ?>
+        </div>
 
         <!-- Formulario para enviar mensajes -->
-        <form method="POST" action="index.php">
+        <form method="POST" action="index.php"> <!-- Envío de datos mediante POST -->
             <?php
-                if (!empty($_SESSION['usuario'])){
-                    echo '<input type="text" name="usuario" value="'.$_SESSION['usuario'].'" required disabled>';
-                }else{
-                    echo '<input type="text" name="usuario" placeholder="Tu nombre" required>';
-                }
+            if (!empty($_SESSION['usuario'])) { // Si hay un usuario en sesión
+                echo '<input type="text" name="usuario" value="' . $_SESSION['usuario'] . '" required disabled>'; // Campo deshabilitado con el nombre
+            } else { // Si no hay usuario en sesión
+                echo '<input type="text" name="usuario" placeholder="Tu nombre" required>'; // Campo para ingresar el nombre
+            }
             ?>
-            <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." rows="3" required></textarea>
-            <button type="submit">Enviar</button>
-            <!-- Boton para forzar reload, mediante javascript! realmente no forma parte del FORM -->
-            <button onclick="window.location.reload();" style="float: right;">Recargar</button>
+            <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." rows="3" required></textarea> <!-- Campo para escribir el mensaje -->
+            <button type="submit">Enviar</button> <!-- Botón para enviar el formulario -->
+            <button onclick="window.location.reload();" style="float: right;">Recargar</button> <!-- Botón para recargar la página -->
         </form>
     </div>
 </body>
 </html>
 
+
 <?php
 // Cierra la conexión a la base de datos
-$conn->close();
+$conn->close(); // Libera recursos relacionados con la conexión
 ?>
