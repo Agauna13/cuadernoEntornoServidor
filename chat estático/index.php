@@ -42,7 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Evita entradas vacías
     if (!empty($usuario) && !empty($mensaje)) {
         $sql = "INSERT INTO mensajes (usuario, mensaje) VALUES ('$usuario', '$mensaje')";
-        if (!$conn->query($sql)) {
+        if ($conn->query($sql)) {
+            // Redirigir para evitar reenvío de formulario
+            header("Location: index.php");
+            exit();
+        }else if(!$conn->query($sql)) {
             echo "Error al enviar el mensaje: " . $conn->error;
         }
     }
@@ -59,15 +63,66 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <title>Chat Básico con PHP y MySQL</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 20px; }
-        .chat-box { background: #fff; padding: 15px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
-        .mensaje { margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-        .mensaje strong { color: #333; }
-        form { margin-top: 20px; }
-        input, textarea { width: 98%; margin-bottom: 10px;  } /* padding: 8px; */
-        button { background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; }
-        button:hover { background-color: #218838; }
-    </style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Altura completa de la ventana */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            height: 100vh; /* Ocupa el 100% de la altura de la página */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mensajes-container {
+            flex: 1; /* Ocupa todo el espacio disponible */
+            overflow-y: auto; /* Habilita el scroll vertical */
+            margin-bottom: 10px;
+        }
+
+        .mensaje {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .mensaje strong {
+            color: #333;
+        }
+
+        form {
+            margin-top: auto;
+        }
+
+        input, textarea {
+            width: 98%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+</style>
+
 </head>
 <body>
     <div class="chat-box">
@@ -87,7 +142,7 @@ $result = $conn->query($sql);
 
         <!-- Formulario para enviar mensajes -->
         <form method="POST" action="index.php">
-            <?php 
+            <?php
                 if (!empty($_SESSION['usuario'])){
                     echo '<input type="text" name="usuario" value="'.$_SESSION['usuario'].'" required disabled>';
                 }else{
