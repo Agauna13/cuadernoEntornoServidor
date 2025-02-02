@@ -110,7 +110,7 @@ $boletin = new Boletin($alumnosNotas[$nombre]["Servidor"], $alumnosNotas[$nombre
 <body>
     <header>
         <div class="logo"></div>
-        <?php echo substr($nombre, -1) == 'a' ? "Bienvenida " . $nombre . ' ' . $apellido : "Bienvenido " . $nombre . ' ' . $apellido; ?>
+        <?php echo substr($nombre, -1) == 'a' ? "Bienvenida " . ucfirst($nombre) . ' ' . ucfirst($apellido) : "Bienvenido " . ucfirst($nombre) . ' ' . ucfirst($apellido); ?>
         <form action="logOut.php">
             <button type="submit">Log Out</button>
         </form>

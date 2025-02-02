@@ -141,4 +141,14 @@ $_COOKIE ->  para almacenar preferencias del usuario o información que necesita
 $_ENV -> para guardar las variables del entorno
 
 */
+
+
+
+/* IMPORTANTE A LA HORA DE TRABAJAR CON $_SESSION 
+
+	hacerse un pequeño esquema mental de qué variables de sesion vamos a querer usar y cómo, desde donde hacia adonde necesitamos que se envíen o se usen y para qué ANTES de empezar a escribir el código. Por ejemplo, si necesitamos que el nombre de usuario Sea el parámetro de referencia para mostrar uno u otro contenido.
+
+
+
+*/
 ?>

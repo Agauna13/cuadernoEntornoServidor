@@ -66,8 +66,8 @@ if (isset($_SESSION["error"])) {
     <header>
         <div class="login">
             <form action="logIn.php" method="POST">
-                <input type="text" name="username" placeholder="Username">
-                <input type="number" name="password" placeholder="Password">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="number" name="password" placeholder="Password" required>
                 <button type="submit">Log In</button>
             </form>
         </div>
